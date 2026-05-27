@@ -1,0 +1,206 @@
+rosbag2_bagfile_information:
+  version: 5
+  storage_identifier: sqlite3
+  duration:
+    nanoseconds: 1137545204039
+  starting_time:
+    nanoseconds_since_epoch: 1779904065810806596
+  message_count: 66261
+  topics_with_message_count:
+    - topic_metadata:
+        name: /collision_warning
+        type: std_msgs/msg/Int32MultiArray
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 3\n  depth: 0\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 11370
+    - topic_metadata:
+        name: /viz/collision_markers
+        type: visualization_msgs/msg/MarkerArray
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 3\n  depth: 0\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 11370
+    - topic_metadata:
+        name: /collision_slow
+        type: std_msgs/msg/Int32MultiArray
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 3\n  depth: 0\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 11370
+    - topic_metadata:
+        name: /obstacles/pose
+        type: geometry_msgs/msg/PoseArray
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 3\n  depth: 0\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 2275
+    - topic_metadata:
+        name: /emergency_stop
+        type: std_msgs/msg/Bool
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 3\n  depth: 0\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 2275
+    - topic_metadata:
+        name: /viz/markers
+        type: visualization_msgs/msg/MarkerArray
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 3\n  depth: 0\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 2275
+    - topic_metadata:
+        name: /vehicle/pose
+        type: geometry_msgs/msg/PoseArray
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 3\n  depth: 0\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 11375
+    - topic_metadata:
+        name: /speed_advisory
+        type: std_msgs/msg/Float32
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 3\n  depth: 0\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 2276
+    - topic_metadata:
+        name: /vehicle/velocity
+        type: geometry_msgs/msg/Twist
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 3\n  depth: 0\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 11375
+    - topic_metadata:
+        name: /traffic/phase
+        type: std_msgs/msg/String
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 3\n  depth: 0\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 300
+  compression_format: ""
+  compression_mode: ""
+  relative_file_paths:
+    - scenario_20260528_024744_0.db3
+    - scenario_20260528_024744_1.db3
+    - scenario_20260528_024744_2.db3
+    - scenario_20260528_024744_3.db3
+    - scenario_20260528_024744_4.db3
+    - scenario_20260528_024744_5.db3
+    - scenario_20260528_024744_6.db3
+    - scenario_20260528_024744_7.db3
+    - scenario_20260528_024744_8.db3
+    - scenario_20260528_024744_9.db3
+    - scenario_20260528_024744_10.db3
+    - scenario_20260528_024744_11.db3
+    - scenario_20260528_024744_12.db3
+    - scenario_20260528_024744_13.db3
+    - scenario_20260528_024744_14.db3
+    - scenario_20260528_024744_15.db3
+    - scenario_20260528_024744_16.db3
+    - scenario_20260528_024744_17.db3
+    - scenario_20260528_024744_18.db3
+  files:
+    - path: scenario_20260528_024744_0.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904065810806596
+      duration:
+        nanoseconds: 59982630449
+      message_count: 3475
+    - path: scenario_20260528_024744_1.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904125811444602
+      duration:
+        nanoseconds: 59999326825
+      message_count: 3496
+    - path: scenario_20260528_024744_2.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904185814051250
+      duration:
+        nanoseconds: 59996530247
+      message_count: 3496
+    - path: scenario_20260528_024744_3.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904245814740072
+      duration:
+        nanoseconds: 59999526374
+      message_count: 3499
+    - path: scenario_20260528_024744_4.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904305855457379
+      duration:
+        nanoseconds: 59959229783
+      message_count: 3507
+    - path: scenario_20260528_024744_5.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904365856060009
+      duration:
+        nanoseconds: 59999989954
+      message_count: 3496
+    - path: scenario_20260528_024744_6.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904425856068908
+      duration:
+        nanoseconds: 59999382795
+      message_count: 3495
+    - path: scenario_20260528_024744_7.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904485856150593
+      duration:
+        nanoseconds: 59999605309
+      message_count: 3495
+    - path: scenario_20260528_024744_8.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904545856549454
+      duration:
+        nanoseconds: 59999642760
+      message_count: 3496
+    - path: scenario_20260528_024744_9.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904605893344869
+      duration:
+        nanoseconds: 59999095497
+      message_count: 3497
+    - path: scenario_20260528_024744_10.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904665914135931
+      duration:
+        nanoseconds: 59978119580
+      message_count: 3495
+    - path: scenario_20260528_024744_11.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904725914736345
+      duration:
+        nanoseconds: 59977585288
+      message_count: 3497
+    - path: scenario_20260528_024744_12.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904785915784914
+      duration:
+        nanoseconds: 59999555227
+      message_count: 3498
+    - path: scenario_20260528_024744_13.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904845979732797
+      duration:
+        nanoseconds: 59934395102
+      message_count: 3495
+    - path: scenario_20260528_024744_14.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904905980017178
+      duration:
+        nanoseconds: 59999480356
+      message_count: 3496
+    - path: scenario_20260528_024744_15.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779904965992526762
+      duration:
+        nanoseconds: 59987276380
+      message_count: 3495
+    - path: scenario_20260528_024744_16.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779905025992615810
+      duration:
+        nanoseconds: 59999257426
+      message_count: 3497
+    - path: scenario_20260528_024744_17.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779905086014564386
+      duration:
+        nanoseconds: 59977301608
+      message_count: 3495
+    - path: scenario_20260528_024744_18.db3
+      starting_time:
+        nanoseconds_since_epoch: 1779905146014573936
+      duration:
+        nanoseconds: 57341436699
+      message_count: 3341

@@ -11,6 +11,6 @@ ros2 bag record \
   /obstacles/pose \
   /emergency_stop \
   /viz/markers \
-  -o "${OUTPUT}" \
-  --max-bag-duration "${DURATION}"
+  --max-bag-duration "${DURATION}" \
+  -o "${OUTPUT}"
 echo "Done. Bag saved to ${OUTPUT}"

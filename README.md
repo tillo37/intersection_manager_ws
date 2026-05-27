@@ -50,22 +50,31 @@ ros2 bag play bags/scenario
 ```
 
 ## RViz
-Open RViz2 and add a **MarkerArray** display on topic `/viz/markers`.  
-The intersection zone is colour-coded: 🟢 GREEN / 🟡 YELLOW / 🔴 RED / ⚠️ Emergency.
+Open RViz2 and add **MarkerArray** displays on topic `/viz/markers` and `/viz/collision_markers`.  
+The intersection zone is colour-coded: 🟢 GREEN / 🟡 YELLOW / 🔴 RED / ⚠️ Emergency.  
+Collision spheres: 🟠 Orange = vehicle within 2 m of pedestrian / 🔴 Red = within 1 m.
 
 ## Architecture
 ```
 vehicle_control  ──/vehicle/pose──────────────────────────▶ intersection_manager
                  ──/vehicle/velocity──────────────────────▶ intersection_manager
                  ◀──/grant_access (service)────────────────  intersection_manager
+                 ◀──/speed_advisory───────────────────────── speed_advisor
+                 ◀──/collision_warning (Int32MultiArray)───── collision_detector
+                 ◀──/collision_slow   (Int32MultiArray)─────  collision_detector
 
 traffic_light    ──/traffic/phase──────────────────────────▶ intersection_manager
+                 ──/traffic/phase──────────────────────────▶ speed_advisor
                  ◀──/set_phase (service)────────────────────  intersection_manager
 
 pedestrian_sim   ──/obstacles/pose─────────────────────────▶ intersection_manager
+                 ──/obstacles/pose─────────────────────────▶ collision_detector
                  ──/emergency_stop──────────────────────────▶ intersection_manager
+                 ──/emergency_stop──────────────────────────▶ vehicle_control
 
 intersection_manager ──/viz/markers────────────────────────▶ RViz2
+
+collision_detector   ──/viz/collision_markers──────────────▶ RViz2
 ```
 
 ## Packages
@@ -76,3 +85,5 @@ intersection_manager ──/viz/markers─────────────�
 | `pedestrian_sim` | M3 | `pedestrian_sim_node` |
 | `intersection_manager` | M4 | `intersection_manager_node` |
 | `cli_dashboard` | M5 | CLI + tests + launch |
+| `speed_advisor` | M6 | `speed_advisor_node` |
+| `collision_detector` | M7 | `collision_detector_node` |

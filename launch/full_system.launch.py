@@ -54,10 +54,28 @@ def generate_launch_description():
         output='screen',
     )
 
+    # Member 6: Speed Advisor
+    speed_advisor_node = Node(
+        package='speed_advisor',
+        executable='speed_advisor_node',
+        name='speed_advisor_node',
+        output='screen',
+    )
+
+    # Member 7: Collision Detector
+    collision_detector_node = Node(
+        package='collision_detector',
+        executable='collision_detector_node',
+        name='collision_detector_node',
+        output='screen',
+    )
+
     return LaunchDescription([
         static_tf,
         vehicle_control_node,
         traffic_light_node,
         pedestrian_sim_node,
         intersection_manager_node,
+        speed_advisor_node,
+        collision_detector_node,
     ])
