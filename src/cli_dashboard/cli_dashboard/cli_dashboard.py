@@ -84,6 +84,18 @@ def estop():
     ], check=False)
     click.echo('Emergency stop published.')
 
+@cli.command(name='pedestrian-status')
+def pedestrian_status():
+    """Member 3 — Show live pedestrian positions and emergency stop state."""
+    click.echo(click.style('=== Pedestrian Positions (Member 3) ===', bold=True, fg='cyan'))
+    subprocess.run(
+        ['ros2', 'topic', 'echo', '--once', '/obstacles/pose'],
+        check=False, timeout=3)
+    click.echo()
+    click.echo(click.style('=== Emergency Stop State ===', bold=True, fg='cyan'))
+    subprocess.run(
+        ['ros2', 'topic', 'echo', '--once', '/emergency_stop'],
+        check=False, timeout=3)
 
 def main():
     cli()
