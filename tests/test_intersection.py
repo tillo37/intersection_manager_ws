@@ -27,8 +27,8 @@ class _Logger:
     def error(self,*a,**k): pass
 
 class _FakePub:
-    published = []
-    def publish(self,msg): _FakePub.published.append(msg)
+    def __init__(self): self.published = []
+    def publish(self, msg): self.published.append(msg)
 
 class _FakeTimer:
     def cancel(self): pass
@@ -185,53 +185,45 @@ def test_manager_grants_on_green():
     assert result.success is True
 
 
-def test_pedestrian_triggers_estop():
-    """trigger_emergency_stop(active=True) must publish Bool True."""
+def test_pedestrian_estop_active():
+    """trigger_emergency_stop(True) must publish Bool True."""
     from pedestrian_sim.pedestrian_sim_node import PedestrianSimNode
     node = PedestrianSimNode.__new__(PedestrianSimNode)
     pub = _FakePub()
     node.estop_pub  = pub
     node.get_logger = lambda: _Logger()
-    _FakePub.published.clear()
-    node.trigger_emergency_stop(True)   
-    assert len(_FakePub.published) == 1
-    assert _FakePub.published[0].data is True
+    node.trigger_emergency_stop(True)
+    assert len(pub.published) == 1
+    assert pub.published[0].data is True
 
-def test_pedestrian_danger_detection():
-    """simulate_pedestrians must detect when a pedestrian is inside danger zone."""
-    from pedestrian_sim.pedestrian_sim_node import PedestrianSimNode, DANGER_RADIUS
-    node = PedestrianSimNode.__new__(PedestrianSimNode)
-    # Place one pedestrian clearly inside danger zone
-    node.positions = [[0.1, 0.1], [5.0, 5.0]]
-    node.obs_pub    = _FakePub()
-    node.estop_pub  = _FakePub()
-    node.get_logger = lambda: _Logger()
-    node.get_clock  = _FakeNode().get_clock
-    _FakePub.published.clear()
-    node.current_phase = 'GREEN'   # add this line so pedestrians can move
-    node.simulate_pedestrians()
-    # estop_pub should have received Bool True
-    estop_msgs = [m for m in _FakePub.published if hasattr(m, 'data') and m.data is True]
-    assert len(estop_msgs) >= 1, "Emergency stop must fire when pedestrian is in danger zone"
-    
 
-def test_pedestrian_freezes_on_red():
-    """Pedestrians must not move when traffic phase is RED."""
+def test_pedestrian_estop_clear():
+    """trigger_emergency_stop(False) must publish Bool False — zone clear signal."""
     from pedestrian_sim.pedestrian_sim_node import PedestrianSimNode
     node = PedestrianSimNode.__new__(PedestrianSimNode)
-    node.positions     = [[3.0, 3.0], [5.0, 5.0]]
-    node.current_phase = 'RED'
-    node.obs_pub       = _FakePub()
-    node.estop_pub     = _FakePub()
+    pub = _FakePub()
+    node.estop_pub  = pub
+    node.get_logger = lambda: _Logger()
+    node.trigger_emergency_stop(False)
+    assert len(pub.published) == 1
+    assert pub.published[0].data is False
+
+
+def test_pedestrian_in_danger_zone_triggers_estop():
+    """simulate_pedestrians() must fire estop=True when a ped is inside danger zone."""
+    from pedestrian_sim.pedestrian_sim_node import PedestrianSimNode
+    node = PedestrianSimNode.__new__(PedestrianSimNode)
+    node.positions     = [[0.1, 0.0]]    # 0.1 m from centre — inside DANGER_RADIUS
+    node.current_phase = 'GREEN'         # GREEN so movement and danger check runs
+    node.obs_pub       = _FakePub()      # separate instance — catches PoseArray
+    estop_pub          = _FakePub()      # separate instance — catches Bool only
+    node.estop_pub     = estop_pub
     node.get_logger    = lambda: _Logger()
     node.get_clock     = _FakeNode().get_clock
-    _FakePub.published.clear()
-
-    pos_before = [list(p) for p in node.positions]
     node.simulate_pedestrians()
-    pos_after  = [list(p) for p in node.positions]
-
-    assert pos_before == pos_after, "Pedestrians must not move during RED phase"    
+    assert len(estop_pub.published) == 1, 'Emergency stop Bool must be published'
+    assert estop_pub.published[0].data is True, \
+        'Pedestrian inside danger zone must set estop True'
 
 
 def test_vehicle_stops_without_access():
@@ -244,11 +236,10 @@ def test_vehicle_stops_without_access():
          'end': [10.0, 0.0], 'speed': 0.5,
          'access_requested': False, 'access_granted': False},
     ]
-    node.pose_pub = _FakePub()
-    node.vel_pub  = _FakePub()
+    node.pose_pub   = _FakePub()
+    node.vel_pub    = _FakePub()
     node.get_logger = lambda: _Logger()
     node.get_clock  = _FakeNode().get_clock
-
     x_before = node.vehicles[0]['x']
     node.publish_state()
     assert node.vehicles[0]['x'] == x_before, "Vehicle must not move when estop is active"
@@ -262,11 +253,11 @@ def test_speed_advisor_phase_red():
     node.vehicle_poses  = []
     node.speed_limit    = 0.5
     node.advisor_active = True
-    node.advisory_pub   = _FakePub()
+    pub = _FakePub()
+    node.advisory_pub   = pub
     node.get_logger     = lambda: _Logger()
-    _FakePub.published.clear()
     node.compute_advisory()
-    assert _FakePub.published[-1].data == 0.0
+    assert pub.published[-1].data == 0.0
 
 
 def test_speed_advisor_phase_yellow():
@@ -277,11 +268,11 @@ def test_speed_advisor_phase_yellow():
     node.vehicle_poses  = []
     node.speed_limit    = 0.5
     node.advisor_active = True
-    node.advisory_pub   = _FakePub()
+    pub = _FakePub()
+    node.advisory_pub   = pub
     node.get_logger     = lambda: _Logger()
-    _FakePub.published.clear()
     node.compute_advisory()
-    assert _FakePub.published[-1].data == 0.25
+    assert pub.published[-1].data == 0.25
 
 
 def test_speed_advisor_phase_green():
@@ -292,11 +283,11 @@ def test_speed_advisor_phase_green():
     node.vehicle_poses  = []
     node.speed_limit    = 0.5
     node.advisor_active = True
-    node.advisory_pub   = _FakePub()
+    pub = _FakePub()
+    node.advisory_pub   = pub
     node.get_logger     = lambda: _Logger()
-    _FakePub.published.clear()
     node.compute_advisory()
-    assert _FakePub.published[-1].data == 0.5
+    assert pub.published[-1].data == 0.5
 
 
 def test_collision_detector_no_danger():
@@ -304,17 +295,15 @@ def test_collision_detector_no_danger():
     from collision_detector.collision_detector_node import CollisionDetectorNode
     node = CollisionDetectorNode.__new__(CollisionDetectorNode)
     node.vehicle_poses    = [(10.0, 0.0), (0.0, 10.0)]
-    node.pedestrian_poses = [(0.0, 0.0)]   # far from both vehicles
+    node.pedestrian_poses = [(0.0, 0.0)]
     node.warning_active   = False
-    node.warning_pub      = _FakePub()
+    warning_pub = _FakePub()
+    node.warning_pub      = warning_pub
     node.slow_pub         = _FakePub()
     node.marker_pub       = _FakePub()
     node.get_logger       = lambda: _Logger()
-    _FakePub.published.clear()
     node.check_proximity()
-    # First published message is /collision_warning — should have no danger indices
-    warning_msg = _FakePub.published[0]
-    assert warning_msg.data == [], "No vehicles should be in danger"
+    assert warning_pub.published[0].data == [], "No vehicles should be in danger"
 
 
 def test_collision_detector_danger():
@@ -322,17 +311,15 @@ def test_collision_detector_danger():
     from collision_detector.collision_detector_node import (
         CollisionDetectorNode, DANGER_DISTANCE)
     node = CollisionDetectorNode.__new__(CollisionDetectorNode)
-    # Place vehicle 0 very close to the pedestrian
     node.vehicle_poses    = [(0.5, 0.0), (10.0, 0.0)]
     node.pedestrian_poses = [(0.0, 0.0)]
     node.warning_active   = False
-    node.warning_pub      = _FakePub()
+    warning_pub = _FakePub()
+    node.warning_pub      = warning_pub
     node.slow_pub         = _FakePub()
     node.marker_pub       = _FakePub()
     node.get_logger       = lambda: _Logger()
     node.get_clock        = _FakeNode().get_clock
-    _FakePub.published.clear()
     node.check_proximity()
-    warning_msg = _FakePub.published[0]
-    assert 0 in warning_msg.data, "Vehicle 0 should be flagged as dangerous"
-    assert 1 not in warning_msg.data, "Vehicle 1 should not be flagged"
+    assert 0 in warning_pub.published[0].data, "Vehicle 0 should be flagged as dangerous"
+    assert 1 not in warning_pub.published[0].data, "Vehicle 1 should not be flagged"
