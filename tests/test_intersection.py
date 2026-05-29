@@ -193,9 +193,45 @@ def test_pedestrian_triggers_estop():
     node.estop_pub  = pub
     node.get_logger = lambda: _Logger()
     _FakePub.published.clear()
-    node.trigger_emergency_stop()
+    node.trigger_emergency_stop(True)   
     assert len(_FakePub.published) == 1
     assert _FakePub.published[0].data is True
+
+def test_pedestrian_danger_detection():
+    """simulate_pedestrians must detect when a pedestrian is inside danger zone."""
+    from pedestrian_sim.pedestrian_sim_node import PedestrianSimNode, DANGER_RADIUS
+    node = PedestrianSimNode.__new__(PedestrianSimNode)
+    # Place one pedestrian clearly inside danger zone
+    node.positions = [[0.1, 0.1], [5.0, 5.0]]
+    node.obs_pub    = _FakePub()
+    node.estop_pub  = _FakePub()
+    node.get_logger = lambda: _Logger()
+    node.get_clock  = _FakeNode().get_clock
+    _FakePub.published.clear()
+    node.current_phase = 'GREEN'   # add this line so pedestrians can move
+    node.simulate_pedestrians()
+    # estop_pub should have received Bool True
+    estop_msgs = [m for m in _FakePub.published if hasattr(m, 'data') and m.data is True]
+    assert len(estop_msgs) >= 1, "Emergency stop must fire when pedestrian is in danger zone"
+    
+
+def test_pedestrian_freezes_on_red():
+    """Pedestrians must not move when traffic phase is RED."""
+    from pedestrian_sim.pedestrian_sim_node import PedestrianSimNode
+    node = PedestrianSimNode.__new__(PedestrianSimNode)
+    node.positions     = [[3.0, 3.0], [5.0, 5.0]]
+    node.current_phase = 'RED'
+    node.obs_pub       = _FakePub()
+    node.estop_pub     = _FakePub()
+    node.get_logger    = lambda: _Logger()
+    node.get_clock     = _FakeNode().get_clock
+    _FakePub.published.clear()
+
+    pos_before = [list(p) for p in node.positions]
+    node.simulate_pedestrians()
+    pos_after  = [list(p) for p in node.positions]
+
+    assert pos_before == pos_after, "Pedestrians must not move during RED phase"    
 
 
 def test_vehicle_stops_without_access():
