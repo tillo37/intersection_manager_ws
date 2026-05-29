@@ -2,7 +2,7 @@
 """
 collision_detector_node.py
 --------------------------
-Member 7 — Collision Detector
+Member 7 Mikhail — Collision Detector
 Package : collision_detector
 Node    : collision_detector_node
 

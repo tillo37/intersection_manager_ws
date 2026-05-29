@@ -12,8 +12,8 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='Member7',
-    maintainer_email='m7@example.com',
+    maintainer='Member7 Mikhail',
+    maintainer_email='nomoresuncheez@gmail.com',
     description='Collision Detector Node',
     license='MIT',
     entry_points={
