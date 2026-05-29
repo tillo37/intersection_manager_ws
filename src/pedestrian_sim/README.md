@@ -1,4 +1,4 @@
-# pedestrian_sim (Member 3)
+# pedestrian_sim (Member 3  Temurjon)
 
 Simulates 6 pedestrians with random walks biased toward the intersection centre.
 Fires emergency stop when any pedestrian enters the 1.0 m danger zone.
